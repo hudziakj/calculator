@@ -1,5 +1,6 @@
 class CalcController {
   constructor() {
+    this._operation = [];
     this._locale = "pt-BR";
     this._displayCalcEl = document.querySelector("#display");
     this._dateEl = document.querySelector("#date");
@@ -16,11 +17,76 @@ class CalcController {
     }, 1000);
   }
 
+  clearAll() {
+    this._operation = [];
+  }
+
+  clearEntry() {
+    this._operation.pop();
+  }
+
+  setError() {
+    this.displayCalc = "Error";
+  }
+
+  addOperation(value) {
+    this._operation.push(value);
+    console.log(this._operation);
+  }
+
+  execBtn(value) {
+    switch (value) {
+      case "ac":
+        this.clearAll();
+        break;
+      case "ce":
+        this.clearEntry();
+        break;
+      case "percentage":
+        console.log("Clicou no %");
+        break;
+      case "division":
+        console.log("Clicou no /");
+        break;
+      case "multiplication":
+        console.log("Clicou no 9");
+        break;
+      case "subtraction":
+        console.log("Clicou no 9");
+        break;
+      case "sum":
+        console.log("Clicou no 9");
+        break;
+      case "dot":
+        console.log("Clicou no 9");
+        break;
+      case "equal":
+        console.log("Clicou no 9");
+        break;
+      case "0":
+      case "1":
+      case "2":
+      case "3":
+      case "4":
+      case "5":
+      case "6":
+      case "7":
+      case "8":
+      case "9":
+        this.addOperation(parseInt(value));
+        break;
+      default:
+        this.setError();
+        break;
+    }
+  }
+
   initButtonsEvents() {
     let buttons = document.querySelectorAll(".keys > button");
     buttons.forEach((element) => {
       element.addEventListener("click", (el) => {
-        console.log(element);
+        let textBtn = element.className.replace("btn-", "");
+        this.execBtn(textBtn);
       });
     });
   }
