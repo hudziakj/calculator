@@ -29,8 +29,36 @@ class CalcController {
     this.displayCalc = "Error";
   }
 
+  getLastOperation() {
+    return this._operation[this._operation.length - 1];
+  }
+
+  setLastOperation(value) {
+    this._operation[this._operation.length - 1] = value;
+  }
+
+  isOperator(value) {
+    return ["+", "-", "*", "/", "%"].indexOf(value) > -1;
+  }
+
   addOperation(value) {
-    this._operation.push(value);
+    if (isNaN(this.getLastOperation())) {
+      //String
+      if (this.isOperator(value)) {
+        //Change operator
+        this.setLastOperation(value);
+      } else if (isNaN(value)) {
+        //Other
+        console.log(value);
+      } else {
+        this._operation.push(value);
+      }
+    } else {
+      //Number
+      let newValue = this.getLastOperation().toString() + value.toString();
+      this.setLastOperation(parseInt(newValue));
+    }
+
     console.log(this._operation);
   }
 
@@ -43,22 +71,22 @@ class CalcController {
         this.clearEntry();
         break;
       case "percentage":
-        console.log("Clicou no %");
+        this.addOperation("%");
         break;
       case "division":
-        console.log("Clicou no /");
+        this.addOperation("/");
         break;
       case "multiplication":
-        console.log("Clicou no 9");
+        this.addOperation("*");
         break;
       case "subtraction":
-        console.log("Clicou no 9");
+        this.addOperation("-");
         break;
       case "sum":
-        console.log("Clicou no 9");
+        this.addOperation("+");
         break;
       case "dot":
-        console.log("Clicou no 9");
+        this.addOperation(".");
         break;
       case "equal":
         console.log("Clicou no 9");
