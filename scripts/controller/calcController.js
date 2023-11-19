@@ -41,6 +41,24 @@ class CalcController {
     return ["+", "-", "*", "/", "%"].indexOf(value) > -1;
   }
 
+  pushOperation(value) {
+    this._operation.push(value);
+
+    if (this._operation.length > 3) {
+      let last = this._operation.pop();
+      this.calc();
+    }
+  }
+
+  calc() {
+    let last = this._operation.pop();
+
+    let result = eval(this._operation.join(""));
+    this._operation = [result, last];
+  }
+
+  setLastNumberToDisplay() {}
+
   addOperation(value) {
     if (isNaN(this.getLastOperation())) {
       //String
@@ -49,17 +67,25 @@ class CalcController {
         this.setLastOperation(value);
       } else if (isNaN(value)) {
         //Other
-        console.log(value);
+        console.log("Outra coisa", value);
       } else {
-        this._operation.push(value);
+        this.pushOperation(value);
       }
     } else {
+      if (this.isOperator(value)) {
+        this.pushOperation(value);
+      } else {
+        let newValue = this.getLastOperation().toString() + value.toString();
+        this.setLastOperation(parseInt(newValue));
+        //Update display
+        this.setLastNumberToDisplay();
+      }
       //Number
-      let newValue = this.getLastOperation().toString() + value.toString();
-      this.setLastOperation(parseInt(newValue));
+      // let newValue = this.getLastOperation().toString() + value.toString();
+      // this.setLastOperation(parseInt(newValue));
     }
 
-    console.log(this._operation);
+    // console.log(this._operation);
   }
 
   execBtn(value) {
