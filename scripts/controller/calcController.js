@@ -202,7 +202,7 @@ class CalcController {
   }
 
   initButtonsEvents() {
-    let buttons = document.querySelectorAll(".keys > button");
+    let buttons = document.querySelectorAll("button");
     buttons.forEach((element) => {
       element.addEventListener("click", (el) => {
         let textBtn = element.className.replace("btn-", "");
